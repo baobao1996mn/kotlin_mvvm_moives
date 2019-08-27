@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">kotlin_movies</string>
+    <string name="image_of_movie">Image of movie</string>
 </resources>

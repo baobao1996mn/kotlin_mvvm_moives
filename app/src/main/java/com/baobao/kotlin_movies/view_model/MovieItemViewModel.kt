@@ -6,10 +6,10 @@ import com.baobao.kotlin_movies.injection.model.Movie
 
 class MovieItemViewModel : BaseViewModel() {
     val movieAverage = MutableLiveData<String>()
-    val movieTitle = MutableLiveData<String>()
+    val movieImage = MutableLiveData<String>()
 
     fun bind(movie: Movie) {
         movieAverage.value = movie.vote_average.toString()
-        movieTitle.value = movie.title
+        movieImage.value = "https://image.tmdb.org/t/p/w500" + movie.poster_path
     }
 }

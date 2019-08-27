@@ -14,11 +14,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="2.dp">
 
-        <TextView
-            android:id="@+id/movie_list_tile"
+        <ImageView
+            android:id="@+id/movie_list_image"
             android:layout_width="match_parent"
             android:layout_height="240dp"
-            android:text="@{viewModel.getMovieTitle()}" />
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/image_of_movie"
+            app:urlImage="@{viewModel.getMovieImage()}" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"

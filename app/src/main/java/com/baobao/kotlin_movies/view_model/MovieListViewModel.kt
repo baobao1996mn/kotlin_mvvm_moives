@@ -36,7 +36,7 @@ class MovieListViewModel : BaseViewModel() {
         loadMovies()
     }
 
-    private fun loadMovies() {
+     fun loadMovies() {
         subscription = Observable.fromCallable { }
             .concatMap {
                 movieApi.getMovies(1).concatMap { apiMovieList ->

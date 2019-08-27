@@ -6,7 +6,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.baobao.kotlin_movies.R
 import com.baobao.kotlin_movies.databinding.ActivityMovieListBinding
 import com.baobao.kotlin_movies.injection.ViewModelFactory
@@ -44,11 +43,20 @@ class MovieListActivity : AppCompatActivity() {
             }
         })
 
-        swipe_movie_list.setOnRefreshListener {
-            page = 0
-            viewModel.loadMovies()
-            swipe_movie_list.isRefreshing = false
-        }
+        swipe_movie_list.setOnRefreshListener(object : SwipeRefreshListener() {
+            override fun refreshItems() {
+                page = 0
+                viewModel.loadMovies()
+            }
+
+            override fun onRefreshCompleted() {
+                swipe_movie_list.isRefreshing = false
+            }
+
+            override fun isLoading(): Boolean {
+                return viewModel.isLoading
+            }
+        })
 
         viewModel =
             ViewModelProviders.of(this, ViewModelFactory()).get(MovieListViewModel::class.java)

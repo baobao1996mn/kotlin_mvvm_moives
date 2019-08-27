@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.baobao.kotlin_movies.R
 import com.baobao.kotlin_movies.databinding.ItemMovieBinding
 import com.baobao.kotlin_movies.injection.model.Movie
@@ -74,4 +75,19 @@ abstract class PaginationScrollListener
     abstract fun loadMoreItems()
 
     abstract fun isLoading(): Boolean
+}
+
+abstract class SwipeRefreshListener : SwipeRefreshLayout.OnRefreshListener {
+
+    override fun onRefresh() {
+        if (!isLoading())
+            refreshItems()
+        onRefreshCompleted()
+    }
+
+    abstract fun refreshItems()
+
+    abstract fun isLoading(): Boolean
+
+    abstract fun onRefreshCompleted()
 }

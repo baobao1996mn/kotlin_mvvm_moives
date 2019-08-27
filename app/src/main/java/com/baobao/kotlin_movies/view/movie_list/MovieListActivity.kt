@@ -31,6 +31,19 @@ class MovieListActivity : AppCompatActivity() {
         binding.movieList.layoutManager =
             GridLayoutManager(this, 2)
 
+        //handler scroll
+        movie_list?.addOnScrollListener(object :
+            PaginationScrollListener(binding.movieList.layoutManager as LinearLayoutManager) {
+            override fun loadMoreItems() {
+                page += 1
+                viewModel.loadMoreMovies(page)
+            }
+
+            override fun isLoading(): Boolean {
+                return viewModel.isLoading
+            }
+        })
+
         viewModel =
             ViewModelProviders.of(this, ViewModelFactory()).get(MovieListViewModel::class.java)
         binding.viewModel = viewModel

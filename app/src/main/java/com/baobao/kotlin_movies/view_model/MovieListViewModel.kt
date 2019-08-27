@@ -3,7 +3,6 @@ package com.baobao.kotlin_movies.view_model
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
-import com.baobao.kotlin_movies.R
 import com.baobao.kotlin_movies._base.BaseViewModel
 import com.baobao.kotlin_movies.api.MovieApi
 import com.baobao.kotlin_movies.injection.model.MovieList
@@ -19,8 +18,12 @@ class MovieListViewModel : BaseViewModel() {
     lateinit var movieApi: MovieApi
     val movieListAdapter: MovieListAdapter = MovieListAdapter()
     val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
+    val loadMoreVisibility: MutableLiveData<Int> = MutableLiveData()
 
     private lateinit var subscription: Disposable
+
+    val isLoading: Boolean
+        get() = this.loadingVisibility.value == View.VISIBLE || this.loadMoreVisibility.value == View.VISIBLE
 
     override fun onCleared() {
         super.onCleared()
@@ -29,13 +32,14 @@ class MovieListViewModel : BaseViewModel() {
 
     init {
         loadingVisibility.value = View.VISIBLE
+        loadMoreVisibility.value = View.GONE
         loadMovies()
     }
 
     private fun loadMovies() {
         subscription = Observable.fromCallable { }
             .concatMap {
-                movieApi.getMovies().concatMap { apiMovieList ->
+                movieApi.getMovies(1).concatMap { apiMovieList ->
                     Observable.just(apiMovieList)
                 }
             }
@@ -47,6 +51,29 @@ class MovieListViewModel : BaseViewModel() {
             .subscribe(
                 { result -> onGetMovieListSuccess(result) },
                 { onGetMovieListFail() }
+            )
+    }
+
+    fun loadMoreMovies(page: Int) {
+        subscription = Observable.fromCallable { }
+            .concatMap {
+                movieApi.getMovies(page).concatMap { apiMovieList ->
+                    Observable.just(apiMovieList)
+                }
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { onLoadMoreMovieListStarted() }
+            .doOnTerminate {
+                onLoadMoreMovieListCompleted(); Log.d(
+                this.javaClass.simpleName,
+                "Page: $page"
+            )
+            }
+            .doOnError { e -> Log.i(this.javaClass.name, e.message) }
+            .subscribe(
+                { result -> onLoadMoreMovieListSuccess(result) },
+                { onLoadMoreMovieListFail() }
             )
     }
 
@@ -63,6 +90,23 @@ class MovieListViewModel : BaseViewModel() {
     }
 
     private fun onGetMovieListFail() {
-        Log.d(this.javaClass.simpleName,"Loading fail")
+        Log.d(this.javaClass.simpleName, "Loading fail")
+    }
+
+    //todo load more
+    private fun onLoadMoreMovieListStarted() {
+        loadMoreVisibility.value = View.VISIBLE
+    }
+
+    private fun onLoadMoreMovieListCompleted() {
+        loadMoreVisibility.value = View.GONE
+    }
+
+    private fun onLoadMoreMovieListSuccess(movieList: MovieList) {
+        movieListAdapter.addMovieList(movieList)
+    }
+
+    private fun onLoadMoreMovieListFail() {
+        Log.d(this.javaClass.simpleName, "Loading fail")
     }
 }

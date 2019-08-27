@@ -37,6 +37,14 @@ class MovieListAdapter : RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
+    fun addMovieList(movieList: MovieList) {
+        this.movieList.addAll(movieList.result.toMutableList())
+        if (movieList.result.isNotEmpty()) {
+            val start: Int = this.movieList.size - movieList.result.size
+            notifyItemRangeChanged(start, movieList.result.size)
+        }
+    }
+
     class ViewHolder(private val binding: ItemMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private val viewModel = MovieItemViewModel()
@@ -46,4 +54,24 @@ class MovieListAdapter : RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
             binding.viewModel = viewModel
         }
     }
+}
+
+abstract class PaginationScrollListener
+    (var layoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {
+
+    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        super.onScrolled(recyclerView, dx, dy)
+        val visibleItemCount = layoutManager.childCount
+        val totalItemCount = layoutManager.itemCount
+        val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+        if (!isLoading()) {
+            if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0) {
+                loadMoreItems()
+            }
+        }
+    }
+
+    abstract fun loadMoreItems()
+
+    abstract fun isLoading(): Boolean
 }

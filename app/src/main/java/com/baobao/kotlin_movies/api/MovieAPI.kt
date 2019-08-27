@@ -7,5 +7,5 @@ import retrofit2.http.Query
 
 interface MovieApi {
     @GET("movie/now_playing?language=en-US")
-    fun getMovies(): Observable<MovieList>
+    fun getMovies(@Query("page") page: Int): Observable<MovieList>
 }

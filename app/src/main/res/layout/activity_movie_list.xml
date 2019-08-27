@@ -31,5 +31,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:mutableVisibility="@{viewModel.getLoadingVisibility()}" />
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@color/cardview_light_background"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:mutableVisibility="@{viewModel.getLoadMoreVisibility()}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,6 +1,7 @@
 package com.baobao.kotlin_movies.utils
 
 import android.content.ContextWrapper
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -11,8 +12,13 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.baobao.kotlin_movies.R
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.transition.DrawableCrossFadeTransition
+import com.bumptech.glide.request.transition.Transition
+import com.bumptech.glide.request.transition.TransitionFactory
 
 fun View.getActivity(): AppCompatActivity? {
     var context = this.context
@@ -61,7 +67,17 @@ fun setUrlImage(view: ImageView, url: String?) {
                 DiskCacheStrategy.AUTOMATIC
             ).centerCrop().placeholder(R.mipmap.ic_place_holder)
         )
-            .load(url)
+            .load(url).transition(DrawableTransitionOptions.with(DrawableAlwaysCrossFadeFactory()))
             .into(view)
+    }
+}
+
+class DrawableAlwaysCrossFadeFactory : TransitionFactory<Drawable> {
+    private val resourceTransition: DrawableCrossFadeTransition = DrawableCrossFadeTransition(
+        300,
+        true
+    )
+    override fun build(dataSource: DataSource?, isFirstResource: Boolean): Transition<Drawable> {
+        return resourceTransition
     }
 }

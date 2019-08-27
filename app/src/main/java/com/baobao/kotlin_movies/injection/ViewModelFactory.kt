@@ -1,8 +1,8 @@
-package com.baobao.kotlin_moives.injection
+package com.baobao.kotlin_movies.injection
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.baobao.kotlin_moives.view_model.MovieListViewModel
+import com.baobao.kotlin_movies.view_model.MovieListViewModel
 
 class ViewModelFactory : ViewModelProvider.Factory{
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

@@ -1,10 +1,10 @@
-package com.baobao.kotlin_moives._base
+package com.baobao.kotlin_movies._base
 
 import androidx.lifecycle.ViewModel
-import com.baobao.kotlin_moives.injection.DaggerViewModelInjector
-import com.baobao.kotlin_moives.injection.ViewModelInjector
-import com.baobao.kotlin_moives.module.NetworkModule
-import com.baobao.kotlin_moives.view_model.MovieListViewModel
+import com.baobao.kotlin_movies.injection.DaggerViewModelInjector
+import com.baobao.kotlin_movies.injection.ViewModelInjector
+import com.baobao.kotlin_movies.module.NetworkModule
+import com.baobao.kotlin_movies.view_model.MovieListViewModel
 
 
 abstract class BaseViewModel : ViewModel() {

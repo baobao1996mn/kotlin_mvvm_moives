@@ -1,5 +1,6 @@
-package com.baobao.kotlin_moives.module
+package com.baobao.kotlin_movies.module
 
+import com.baobao.kotlin_movies.api.MovieApi
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -22,5 +23,12 @@ object NetworkModule {
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .build()
+    }
+
+    @Provides
+    @Reusable
+    @JvmStatic
+    internal fun provideMovieApi(retrofit: Retrofit): MovieApi {
+        return retrofit.create(MovieApi::class.java)
     }
 }

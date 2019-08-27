@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name='kotlin_moives'
+rootProject.name='kotlin_movies'

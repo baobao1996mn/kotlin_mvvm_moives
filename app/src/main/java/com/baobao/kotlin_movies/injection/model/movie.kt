@@ -1,4 +1,4 @@
-package com.baobao.kotlin_moives.injection.model
+package com.baobao.kotlin_movies.injection.model
 
 import com.google.gson.annotations.SerializedName
 

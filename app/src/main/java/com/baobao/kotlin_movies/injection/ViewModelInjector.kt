@@ -1,7 +1,7 @@
-package com.baobao.kotlin_moives.injection
+package com.baobao.kotlin_movies.injection
 
-import com.baobao.kotlin_moives.module.NetworkModule
-import com.baobao.kotlin_moives.view_model.MovieListViewModel
+import com.baobao.kotlin_movies.module.NetworkModule
+import com.baobao.kotlin_movies.view_model.MovieListViewModel
 import dagger.Component
 import javax.inject.Singleton
 

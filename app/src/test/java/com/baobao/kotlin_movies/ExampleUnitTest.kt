@@ -1,4 +1,4 @@
-package com.baobao.kotlin_moives
+package com.baobao.kotlin_movies
 
 import org.junit.Test
 

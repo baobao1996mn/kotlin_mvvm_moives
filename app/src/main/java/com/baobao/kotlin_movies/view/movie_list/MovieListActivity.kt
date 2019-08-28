@@ -46,11 +46,10 @@ class MovieListActivity : AppCompatActivity() {
         swipe_movie_list.setOnRefreshListener(object : SwipeRefreshListener() {
             override fun refreshItems() {
                 page = 0
-                viewModel.loadMovies()
-            }
-
-            override fun onRefreshCompleted() {
                 swipe_movie_list.isRefreshing = false
+                viewModel.loadMovies {
+                    swipe_movie_list.isRefreshing = false
+                }
             }
 
             override fun isLoading(): Boolean {

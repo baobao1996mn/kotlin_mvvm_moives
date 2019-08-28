@@ -82,12 +82,9 @@ abstract class SwipeRefreshListener : SwipeRefreshLayout.OnRefreshListener {
     override fun onRefresh() {
         if (!isLoading())
             refreshItems()
-        onRefreshCompleted()
     }
 
     abstract fun refreshItems()
 
     abstract fun isLoading(): Boolean
-
-    abstract fun onRefreshCompleted()
 }

@@ -33,10 +33,10 @@ class MovieListViewModel : BaseViewModel() {
     init {
         loadingVisibility.value = View.VISIBLE
         loadMoreVisibility.value = View.GONE
-        loadMovies()
+        loadMovies {}
     }
 
-     fun loadMovies() {
+    fun loadMovies(onCompleted: () -> Unit) {
         subscription = Observable.fromCallable { }
             .concatMap {
                 movieApi.getMovies(1).concatMap { apiMovieList ->
@@ -46,7 +46,7 @@ class MovieListViewModel : BaseViewModel() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { onGetMovieListStarted() }
-            .doOnTerminate { onGetMovieListCompleted() }
+            .doOnTerminate { onGetMovieListCompleted(); onCompleted(); }
             .doOnError { e -> Log.i(this.javaClass.name, e.message) }
             .subscribe(
                 { result -> onGetMovieListSuccess(result) },
